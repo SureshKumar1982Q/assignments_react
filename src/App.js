@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
-
+import Card from './Card';
+import { useEffect,useState } from 'react';
 function App() {
+
+  const [movie, setMovie] = useState([])
+  useEffect(()=>{
+    fetch('http://localhost:5000/getMovies').then(data => {return data.json()}).then(data=>{
+      let arr = []
+      arr.push(data)
+     // console.log('arr',arr)
+      setMovie(arr)
+    })
+
+  },[])
+   //console.log('movie',movie)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+       {movie.length >= 1 && <Card movies={movie}/>}
     </div>
   );
 }
